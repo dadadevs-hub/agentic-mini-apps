@@ -8,6 +8,7 @@ import BountyMap from '@/components/BountyMap';
 import CreateBountyForm from '@/components/CreateBountyForm';
 import BountyFeed from '@/components/BountyFeed';
 import ClaimBountyModal from '@/components/ClaimBountyModal';
+import NostrFeedWidget from '@/components/NostrFeedWidget';
 import { useNostr } from '@/hooks/useNostr';
 import { useLightning } from '@/hooks/useLightning';
 import { useLocation } from '@/hooks/useLocation';
@@ -149,8 +150,9 @@ const Index = () => {
         </div>
 
         {/* Content based on active view */}
-        <div className="space-y-8">
-          {activeView === 'map' && (
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <div className="lg:col-span-3 space-y-8">
+            {activeView === 'map' && (
             <Card className="bg-black/40 border-purple-500/20 backdrop-blur-md">
               <CardHeader>
                 <CardTitle className="text-white flex items-center space-x-2">
@@ -198,6 +200,12 @@ const Index = () => {
               )}
             </div>
           )}
+          </div>
+          
+          {/* Nostr Feed Widget */}
+          <div className="hidden lg:block">
+            <NostrFeedWidget />
+          </div>
         </div>
       </main>
 

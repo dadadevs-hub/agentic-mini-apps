@@ -1,6 +1,18 @@
 
 import { useState, useEffect } from 'react';
 
+// Extend Window interface to include webln
+declare global {
+  interface Window {
+    webln?: {
+      enable: () => Promise<void>;
+      isEnabled: boolean;
+      sendPayment: (invoice: string) => Promise<{ preimage: string }>;
+      makeInvoice: (amount: number) => Promise<{ paymentRequest: string }>;
+    };
+  }
+}
+
 // Mock Lightning Network hook for demonstration
 export const useLightning = () => {
   const [isConnected, setIsConnected] = useState(false);
@@ -65,10 +77,7 @@ export const useLightning = () => {
     
     try {
       if (window.webln && window.webln.makeInvoice) {
-        const response = await window.webln.makeInvoice({
-          amount: amount,
-          defaultMemo: memo
-        });
+        const response = await window.webln.makeInvoice(amount);
         console.log('Invoice created:', response);
         return response;
       } else {
